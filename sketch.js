@@ -1,8 +1,8 @@
 var hotdog, hotdogImage;
-var starFireRight, starFire, starFireSitting, starFireMoving;
+var starFireRight, starFire, starFireSitting, starFireMoving, starFireEating;
 var bg;
 var table, tableImage;
-var robin, robinLeft, robinSitting, robinMoving;
+var robin, robinLeft, robinSitting, robinMoving, robinEating;
 var banner, bannerImage;
 
 const START = 0;
@@ -22,18 +22,21 @@ tableImage = loadImage("images/table.png");
 
 bannerImage = loadImage("images/banner.png");
 
+bannerImage = loadImage("images/banner.png");
 
 
 
 robinLeft = loadAnimation("images/robinleft.png");
 robinSitting = loadAnimation("images/RobinSitting.png");
 robinMoving = loadAnimation("images/robinwalking1.png","images/robinwalking2.png");
-
+robinEating = loadAnimation("images/robineating.png","images/robineating2.png");
 
 
 starFireRight = loadAnimation("images/starfireright.png");
 starFireSitting = loadAnimation("images/starfiresitting.png");
 starFireMoving = loadAnimation("images/starfirewalking.png");
+starFireEating = loadAnimation("images/starfireeating.png","images/starfireeating2.png");
+
 }
 
 
@@ -43,6 +46,7 @@ function setup() {
   starFire = createSprite(1300, windowHeight-400);
   starFire.addAnimation("starFire standing",starFireRight);
   starFire.addAnimation("starFire sitting",starFireSitting);
+  starFire.addAnimation("starFire eating", starFireEating);
   starFire.setCollider("rectangle",0,0,50,100);
 
 starFire.scale= 0.5;
@@ -50,12 +54,15 @@ starFire.scale= 0.5;
   robin = createSprite(300, windowHeight-400);
   robin.addAnimation("robin standing",robinLeft);
   robin.addAnimation("robin sitting",robinSitting);
+  robin.addAnimation("robin eating",robinEating);
   robin.setCollider("rectangle",0,0,50,100);
 
   table = createSprite(800,windowHeight-350);
   table.addImage(tableImage);
   table.setCollider("rectangle",0,0,150,100);
 
+  banner = createSprite(750,200)
+  banner.addImage("hotdog banner", bannerImage);
 }
 
 function draw() {
