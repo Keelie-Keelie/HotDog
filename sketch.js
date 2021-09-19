@@ -43,26 +43,33 @@ starFireEating = loadAnimation("images/starfireeating.png","images/starfireeatin
 function setup() {
   createCanvas(windowWidth,windowHeight);
   
-  starFire = createSprite(1300, windowHeight-400);
+  starFire = createSprite(windowWidth-100, windowHeight-300);
   starFire.addAnimation("starFire standing",starFireRight);
   starFire.addAnimation("starFire sitting",starFireSitting);
   starFire.addAnimation("starFire eating", starFireEating);
   starFire.setCollider("rectangle",0,0,50,100);
+  starFire.scale= 0.5;
+  //starFire.debug=true;
 
-starFire.scale= 0.5;
-
-  robin = createSprite(300, windowHeight-400);
+  robin = createSprite(100, windowHeight-300);
   robin.addAnimation("robin standing",robinLeft);
   robin.addAnimation("robin sitting",robinSitting);
   robin.addAnimation("robin eating",robinEating);
   robin.setCollider("rectangle",0,0,50,100);
+  //robin.debug=true;
 
-  table = createSprite(800,windowHeight-350);
+
+  table = createSprite(windowWidth/2,windowHeight-250);
   table.addImage(tableImage);
   table.setCollider("rectangle",0,0,150,100);
+  table.scale=1.2
+  //table.debug=true;
 
-  banner = createSprite(750,200)
+
+  banner = createSprite(windowWidth/2,100)
   banner.addImage("hotdog banner", bannerImage);
+  banner.scale=0.6
+
 }
 
 function draw() {
@@ -70,76 +77,69 @@ function draw() {
 
   if(gameState === START){
     if(keyDown(LEFT_ARROW)|| keyDown("d")){
-gameState = WALK;
-
+      gameState = WALK;
     }
-  }else if(gameState === WALK){
+  }
+  if(gameState === WALK){
 
-    
     if(keyDown("d")){
 
       robin.addAnimation("moving",robinMoving);
       robin.changeAnimation("moving",robinMoving);
       robin.scale = 2;
       robin.velocityX = 2;
-      
-       }
+      }
 
-       if(keyDown("LEFT_ARROW")){
+      if(keyDown("LEFT_ARROW")){
 
         starFire.addAnimation("starFire moving",starFireMoving);
         starFire.changeAnimation("starFire moving",starFireMoving);
         starFire.scale = 0.65;
         starFire.velocityX = -3;
         
-         }
+      }
 
-         if(robin.isTouching(table) && starFire.isTouching(table)){
+      if(robin.isTouching(table) && starFire.isTouching(table)){
           gameState = SIT;
           console.log("SIT")
-         }else if(starFire.isTouching(table)){
+      }
+      if(starFire.isTouching(table)){
 
-          
+        starFire.setCollider("rectangle",0,0,100,200);
             starFire.velocityX = 0;
             starFire.changeAnimation("starFire standing",starFireRight);
             starFire.scale= 0.5;
        console.log("starFiretouching");
-        }else if(robin.isTouching(table)){
-    
-          
+      }
+      if(robin.isTouching(table)){
+            robin.setCollider("rectangle",0,0,100,200);
             robin.velocityX = 0;
             robin.changeAnimation("robin standing",robinLeft);
             robin.scale= 1;
             console.log("robintouching");
-        } 
+      } 
+ 
 
-        
-
-         
-         
-
-  }else if(gameState === SIT){
+  }
+  if(gameState === SIT){
 
     if(robin.isTouching(table)){
 
       
       robin.changeAnimation("robin sitting",robinSitting);
-      robin.y= windowHeight-450;
-      robin.scale = 0.7;
-      robin.debug = true;
-      table.debug = true;
+      robin.y= windowHeight-350;
+      robin.scale = 0.6;
     }
 
     if(starFire.isTouching(table)){
       
       starFire.changeAnimation("starFire sitting",starFireSitting);
       
-      starFire.y= windowHeight-450;
-      starFire.scale = 0.7;
-      starFire.debug = true;
-      table.debug = true;
+      starFire.y= windowHeight-350;
+      starFire.scale = 0.6;
     }
-
+spawnHotdogRobin();
+spawnHotdogStarfire();
   }
 
  
@@ -150,4 +150,28 @@ gameState = WALK;
     
     
   drawSprites();
+}
+
+function spawnHotdogRobin(){
+
+  if (frameCount % 50 === 0) {
+    var hotdog = createSprite(random(windowWidth/2-150,windowWidth/2),150);
+    hotdog.addImage(hotdogImage);
+    hotdog.scale = 0.2;
+    hotdog.velocityY = 15;
+    hotdog.lifetime = 100
+    
+}
+}
+
+
+function spawnHotdogStarfire(){
+
+  if (frameCount % 40 === 0) {
+    var hotdog = createSprite(random(windowWidth/2,windowWidth/2+150),150);
+    hotdog.addImage(hotdogImage);
+    hotdog.scale = 0.2;
+    hotdog.velocityY = 15;
+    hotdog.lifetime = 100
+}
 }
